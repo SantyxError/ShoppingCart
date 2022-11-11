@@ -38,6 +38,8 @@ class Carrito {
 
   borraArticulo(id) {
     const articulo = this.buscaArticulo(id);
+    this.articulosCarrito.splice(articulo, 1);
+    this.verCarrito();
   }
 
   modificaUnidades(id, modificador) {
@@ -46,23 +48,72 @@ class Carrito {
 
     // nuestro modificador admitirá "suma" o "resta"
     if (modificador == "+") {
-      console.log("metodo modificador");
       articulo.unidades += 1;
+      console.log("suma: " + articulo.unidades);
+      this.verCarrito();
     } else if (modificador == "-") {
-      console.log("resta");
+      articulo.unidades > 1 ? (articulo.unidades -= 1) : 1;
+      console.log("resta: " + articulo.unidades);
+      this.verCarrito();
     } else {
       console.log("ninguno");
     }
   }
 
-  contadorUnidades(articulo) {
-    const contador = this.articulosCarrito.filter((a) => {
-      return a.codigo === articulo.codigo;
-    });
-    return contador.length;
-  }
+  verCarrito() {
+    const dialogContent = document.querySelector("#dialogContent");
+    let total = 0;
 
-  verCarrito() {}
+    if (carrito.articulosCarrito.length == 0) {
+      dialogContent.innerHTML = "<p>El carrito está vacío</p>";
+    } else {
+      dialogContent.innerHTML = `<table class='table'>
+    <thead>
+      <tr>
+        <th scope="col"> * </th>
+        <th scope="col"> Nombre </th>
+        <th scope="col"> Descripción </th>
+        <th scope="col"> Precio </th>
+        <th scope="col"> Unidades </th>
+        <th scope="col"> Total </th>
+        <th scope="col"> Acciones </th>
+      </tr>
+      </thead> 
+      <tbody>
+        ${carrito.articulosCarrito
+          .map((articulo) => {
+            total += articulo.precio * articulo.unidades;
+
+            return `<tr>
+                      <td><img src="../assets/${
+                        articulo.codigo
+                      }.jpg" width="50"/></td>
+                      <td>${articulo.nombre}</td>
+                      <td>${articulo.descripcion}</td>
+                      <td>${articulo.precio}€</td>
+                      <td>${articulo.unidades}</td>
+                      <td>${articulo.precio * articulo.unidades}€</td>
+                      <td>
+                        <button type="button" class="btn btn-primary" onclick="carrito.modificaUnidades('${
+                          articulo.codigo
+                        }','+')">+</button>
+                        <button type="button" class="btn btn-warning" onclick="carrito.modificaUnidades('${
+                          articulo.codigo
+                        }','-')">-</button>
+                        <button type="button" class="btn btn-danger" onclick="carrito.borraArticulo('${
+                          articulo.codigo
+                        }','-')">Borrar</button>
+                      </td>
+                    </tr>`;
+          })
+          .join("")}
+      </tbody>
+    </table>
+    `;
+    }
+
+    document.getElementById("total").innerHTML = total + "€";
+  }
 }
 
 //Esto es para borrar un objeto según su posición en el array :D

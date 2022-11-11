@@ -54,55 +54,14 @@ function ponArticuloEnCarrito(articulo) {
 }
 
 function verCarro() {
-  const modal = document.querySelector("#miDialogo");
-  modal.style.top = "140px";
-  modal.style.display = "block";
-
-  const dialogContent = document.querySelector("#dialogContent");
-
-  dialogContent.innerHTML = `<table class='table'>
-  <thead>
-    <tr>
-      <th scope="col"> * </th>
-      <th scope="col"> Nombre </th>
-      <th scope="col"> Descripción </th>
-      <th scope="col"> Precio </th>
-      <th scope="col"> Unidades </th>
-      <th scope="col"> Total </th>
-      <th scope="col"> Acciones </th>
-    </tr>
-    </thead> 
-    <tbody>
-      ${carrito.articulosCarrito
-        .map((articulo) => {
-          return `<tr>
-                    <td><img src="../assets/${
-                      articulo.codigo
-                    }.jpg" width="50"/></td>
-                    <td>${articulo.nombre}</td>
-                    <td>${articulo.descripcion}</td>
-                    <td>${articulo.precio}€</td>
-                    <td>${carrito.contadorUnidades(articulo)}</td>
-                    <td>total</td>
-                    <td>
-                      <button type="button" class="btn btn-primary" onclick="${carrito.modificaUnidades(
-                        articulo.codigo,
-                        "+"
-                      )}">+</button>
-                      <button type="button" class="btn btn-warning">-</button>
-                      <button type="button" class="btn btn-danger">Borrar</button>
-                    </td>
-                  </tr>`;
-        })
-        .join("")}
-    </tbody>
-  </table>
-  `;
+  carrito.verCarrito();
+  document.getElementById("miDialogo").showModal();
+  document.body.style = "opacity:0.3;";
 }
 
 function seguirComprando() {
-  const modal = document.querySelector("#miDialogo");
-  modal.style.display = "none";
+  document.getElementById("miDialogo").close();
+  document.body.style = "opacity:1;";
 }
 
 function efectuaPedido() {}
