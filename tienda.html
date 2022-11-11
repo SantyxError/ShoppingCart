@@ -40,8 +40,27 @@
 		</div>
 		<div class="text-center">
 			<button id="btnCierraDialog" class="btn btn-secondary" onclick="seguirComprando()">Seguir comprando</button>
-			<button id="btnEfectuaPedido" class="btn btn-info">Efectuar pedido</button>
+			<button id="btnEfectuaPedido" class="btn btn-info" onclick="efectuaPedido()">Efectuar pedido</button>
 		</div>
+	</dialog>
+
+	<dialog id="miDialogo2">
+		<h2 id="cabeceraDialog2">¡Su pedido se ha realizado correctamente!</h2>
+		<p id="textoDialog2">Mientras le llega su pedido, tal vez desee valorar este trabajo positivamente.</p>
+		<button id="btnAceptar" class="btn btn-success" onclick="agradecimientoSi()">Si, te mereces un 10</button>
+			<button id="btnCancelar" class="btn btn-danger" onclick="agradecimientoNo()">No, soy mala gente</button>
+	</dialog>
+
+	<dialog id="miDialogo3">
+		<h2 id="cabeceraDialog3">Me pones triste :(</h2>
+		<div class="tenor-gif-embed" data-postid="17333479" data-share-method="host" data-aspect-ratio="0.890625" data-width="100%"><a href="https://tenor.com/view/sad-eyes-pretty-please-beg-puss-in-boots-gif-17333479">Sad Eyes Pretty Please GIF</a>from <a href="https://tenor.com/search/sad+eyes-gifs">Sad Eyes GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+		<button id="btnAceptar2" class="btn btn-success" onclick="agradecimientoGato()">Vaaale, te pondré un 10, pero déjame salir de aquí</button>
+	</dialog>
+
+	<dialog id="miDialogo4">
+		<h2 id="cabeceraDialog4">¡Gracias!!</h2>
+		<div class="tenor-gif-embed" data-postid="7704924" data-share-method="host" data-aspect-ratio="1.315" data-width="100%"><a href="https://tenor.com/view/dancing-carlton-banks-fresh-prince-of-bel-air-dance-famous-dance-gif-7704924">Dancing Carlton Banks GIF</a>from <a href="https://tenor.com/search/dancing-gifs">Dancing GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+		<button id="btnAceptar3" class="btn btn-success" onclick="salir()">Salir</button>
 	</dialog>
 	
 

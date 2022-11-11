@@ -4,19 +4,15 @@ class Carrito {
 
   constructor(id) {
     this.id = id;
-    this.articulosCarrito = [
-      {
-        codigo: "m1",
-        nombre: "Galaxy A32",
-        descripcion: "4GB + 128GB libre",
-        precio: 229,
-        unidades: 1,
-      },
-    ];
+    this.articulosCarrito = [];
   }
 
   buscaArticulo(id) {
     return this.articulosCarrito.find((a) => a.codigo == id);
+  }
+
+  buscaIndiceArticulo(id) {
+    return this.articulosCarrito.findIndex((a) => a.codigo == id);
   }
 
   anyadeArticulo(articulo) {
@@ -37,7 +33,8 @@ class Carrito {
   }
 
   borraArticulo(id) {
-    const articulo = this.buscaArticulo(id);
+    const articulo = this.buscaIndiceArticulo(id);
+    console.log(articulo);
     this.articulosCarrito.splice(articulo, 1);
     this.verCarrito();
   }
@@ -113,10 +110,6 @@ class Carrito {
     }
 
     document.getElementById("total").innerHTML = total + "€";
+    document.getElementById("idPedido").innerHTML = this.id;
   }
 }
-
-//Esto es para borrar un objeto según su posición en el array :D
-// if (index) { // only splice array when item is found
-//   array.splice(index, 1); // 2nd parameter means remove one item only
-// }
