@@ -38,18 +38,20 @@ function pintaArticulos(orden) {
         '</p> <p class= "font-weight-bold">' +
         articulo.precio +
         "€" +
-        `</p><a a href="#" class="btn btn-primary" onclick="ponArticuloEnCarrito(${JSON.stringify(
-          articulo
-        )
-          .split('"')
-          .join("&quot;")})"">Comprar</a></div></div>`
+        `</p><button class="btn btn-primary compra" id="${articulo.codigo}">Comprar</button></div></div>`
       );
     })
     .join("");
+
+  let botones = document.getElementsByClassName("compra");
+
+  Array.from(botones).forEach((element) => {
+    element.addEventListener("click", () => ponArticuloEnCarrito(element.id));
+  });
 }
 
-function ponArticuloEnCarrito(articulo) {
-  carrito.anyadeArticulo(articulo);
+function ponArticuloEnCarrito(codigo) {
+  carrito.anyadeArticulo(codigo);
 }
 
 function verCarro() {
@@ -72,7 +74,11 @@ function efectuaPedido() {
     document.querySelector("#btnEfectuaPedido").disabled = false;
     document.getElementById("miDialogo").close();
     document.body.style = "opacity:1;";
-    console.log(carrito.articulosCarrito.map((a) => a));
+    console.log(JSON.stringify(carrito.articulosCarrito.map((a) => a)));
+    console.log(
+      "El total del pedido es: ",
+      document.getElementById("total").innerHTML
+    );
     carrito.articulosCarrito.splice(carrito.length);
     agradecimiento();
   }

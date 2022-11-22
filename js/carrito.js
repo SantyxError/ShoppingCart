@@ -15,26 +15,25 @@ class Carrito {
     return this.articulosCarrito.findIndex((a) => a.codigo == id);
   }
 
-  anyadeArticulo(articulo) {
-    const { codigo, nombre, descripcion, precio } = articulo;
-    const articuloEncontrado = this.buscaArticulo(articulo.codigo);
+  anyadeArticulo(codigo) {
+    let articuloEncontrado = this.buscaArticulo(codigo);
+    let articuloTienda = listaArticulos.find((a) => a.codigo == codigo);
 
     if (!articuloEncontrado) {
       this.articulosCarrito.push({
-        codigo,
-        nombre,
-        descripcion,
-        precio,
+        codigo: articuloTienda.codigo,
+        nombre: articuloTienda.nombre,
+        descripcion: articuloTienda.descripcion,
+        precio: articuloTienda.precio,
         unidades: 1,
       });
     } else {
-      this.modificaUnidades(articulo.codigo, "suma");
+      articuloEncontrado.unidades += 1;
     }
   }
 
   borraArticulo(id) {
     const articulo = this.buscaIndiceArticulo(id);
-    console.log(articulo);
     this.articulosCarrito.splice(articulo, 1);
     this.verCarrito();
   }
@@ -46,15 +45,12 @@ class Carrito {
     // nuestro modificador admitirá "suma" o "resta"
     if (modificador == "+") {
       articulo.unidades += 1;
-      console.log("suma: " + articulo.unidades);
-      this.verCarrito();
     } else if (modificador == "-") {
       articulo.unidades > 1 ? (articulo.unidades -= 1) : 1;
-      console.log("resta: " + articulo.unidades);
-      this.verCarrito();
-    } else {
-      console.log("ninguno");
+    } else if (modificador == "") {
+      this.borraArticulo(id);
     }
+    this.verCarrito();
   }
 
   verCarrito() {
@@ -67,13 +63,13 @@ class Carrito {
       dialogContent.innerHTML = `<table class='table'>
     <thead>
       <tr>
-        <th scope="col"> * </th>
+        <th scope="col"> IMG </th>
         <th scope="col"> Nombre </th>
         <th scope="col"> Descripción </th>
         <th scope="col"> Precio </th>
         <th scope="col"> Unidades </th>
         <th scope="col"> Total </th>
-        <th scope="col"> Acciones </th>
+        <th scope="col"> </th>
       </tr>
       </thead> 
       <tbody>
@@ -91,15 +87,15 @@ class Carrito {
                       <td>${articulo.unidades}</td>
                       <td>${articulo.precio * articulo.unidades}€</td>
                       <td>
-                        <button type="button" class="btn btn-primary" onclick="carrito.modificaUnidades('${
+                        <button type="button"  id="${
                           articulo.codigo
-                        }','+')">+</button>
-                        <button type="button" class="btn btn-warning" onclick="carrito.modificaUnidades('${
+                        }" value="+" class="btn btn-primary modificado">+</button>
+                        <button type="button" id="${
                           articulo.codigo
-                        }','-')">-</button>
-                        <button type="button" class="btn btn-danger" onclick="carrito.borraArticulo('${
+                        }" value="-" class="btn btn-warning modificado">-</button>
+                        <button type="button" id="${
                           articulo.codigo
-                        }','-')">Borrar</button>
+                        }"  class="btn btn-danger modificado">Borrar</button>
                       </td>
                     </tr>`;
           })
@@ -111,5 +107,12 @@ class Carrito {
 
     document.getElementById("total").innerHTML = total + "€";
     document.getElementById("idPedido").innerHTML = this.id;
+
+    let arrayBoton = document.getElementsByClassName("modificado");
+    Array.from(arrayBoton).forEach((element) => {
+      element.addEventListener("click", () =>
+        this.modificaUnidades(element.id, element.value)
+      );
+    });
   }
 }
